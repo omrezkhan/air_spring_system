@@ -1,12 +1,15 @@
 pipeline {
-    // Run on the Windows agent
     agent { label 'windows-agent' }
 
+    // Parameters that can be set from Jenkins UI
+    parameters {
+        string(name: 'MASS', defaultValue: '500', description: 'Mass (kg)')
+        string(name: 'STIFFNESS', defaultValue: '20000', description: 'Spring stiffness (N/m)')
+        string(name: 'DAMPING', defaultValue: '1500', description: 'Damping coefficient (Ns/m)')
+    }
+
     environment {
-        // Path to your MATLAB executable (Windows path, no surrounding quotes)
         MATLAB_PATH = 'C:\\Program Files\\MATLAB\\R2024b\\bin\\matlab.exe'
-        
-        // Path to your project workspace on the Windows agent
         WORKSPACE_DIR = 'F:\\A_rptu\\German_Resume\\jenkins_CI_Cd\\air_spring_system'
     }
 
@@ -22,16 +25,14 @@ pipeline {
 
         stage('Run MATLAB Script') {
             steps {
-                echo 'Running air_spring_script.m'
-                // Windows batch command to run MATLAB with proper quoting
-                bat "\"${MATLAB_PATH}\" -batch \"cd('${WORKSPACE_DIR}'); air_spring_script\""
+                echo "Running air_spring_script with parameters: M=${params.MASS}, K=${params.STIFFNESS}, C=${params.DAMPING}"
+                bat "\"${MATLAB_PATH}\" -batch \"cd('${WORKSPACE_DIR}'); air_spring_script(${params.MASS}, ${params.STIFFNESS}, ${params.DAMPING})\""
             }
         }
 
         stage('Post-processing') {
             steps {
                 echo 'Post-processing stage (if needed)'
-                // Add any post-processing commands here
             }
         }
     }

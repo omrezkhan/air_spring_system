@@ -1,19 +1,31 @@
 %% Air Spring System Simulation Automation Script
-% Author: Ahmed
+% Author: Omrez Khan
 % Date: 2025-08-13
 % Description: Simulates the air spring system and saves CSV + plots automatically
+
+%%
+function air_spring_script(m, k, c)
 clc
 clear all
-close all
+
+
+% Default values if parameters not provided
+if nargin < 3
+    m = 500;              % Mass (kg)
+    k = 20000;            % Spring stiffness (N/m)
+    c = 1500;              % Damping coefficient (Ns/m)
+end
+
+
 
 %% Set Working Folder
 cd('F:\A_rptu\German_Resume\jenkins_CI_Cd\air_spring_system');
 
 %% Simulation Parameters
 simTime = 10;          % Simulation time in seconds
-m = 500;              % Mass (kg)
-k = 20000;            % Spring stiffness (N/m)
-c = 1500;             % Damping coefficient (Ns/m)
+%m = 500;              % Mass (kg)
+%k = 20000;            % Spring stiffness (N/m)
+%c = 1500;             % Damping coefficient (Ns/m)
 
 %% Load Simulink Model
 modelName = 'air_spring_zf'; % Simulink file name without .slx
@@ -67,3 +79,5 @@ saveas(gcf, figFileName);
 disp(['Simulation plot saved to ', figFileName]);
 
 disp('Air spring simulation completed successfully!');
+end
+
