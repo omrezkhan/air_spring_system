@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo 'Running air_spring_script.m'
                 // Use 'bat' if Jenkins is on Windows, 'sh' if Linux
-                bat 'matlab -batch "air_spring_script"'
+                sh 'matlab -batch "air_spring_script"'
             }
         }
 
