@@ -1,11 +1,12 @@
 pipeline {
-    agent any
+    // Run on the Windows agent
+    agent { label 'windows-agent' }
 
     environment {
-        // Path to your MATLAB executable
-        MATLAB_PATH = '"C:\\Program Files\\MATLAB\\R2024b\\bin\\matlab.exe"'
+        // Path to your MATLAB executable (Windows path, no surrounding quotes)
+        MATLAB_PATH = 'C:\\Program Files\\MATLAB\\R2024b\\bin\\matlab.exe'
         
-        // Path to your project workspace
+        // Path to your project workspace on the Windows agent
         WORKSPACE_DIR = 'F:\\A_rptu\\German_Resume\\jenkins_CI_Cd\\air_spring_system'
     }
 
@@ -22,8 +23,8 @@ pipeline {
         stage('Run MATLAB Script') {
             steps {
                 echo 'Running air_spring_script.m'
-                // Use Windows batch command to run MATLAB
-                bat "${MATLAB_PATH} -batch \"cd('${WORKSPACE_DIR}'); air_spring_script\""
+                // Windows batch command to run MATLAB with proper quoting
+                bat "\"${MATLAB_PATH}\" -batch \"cd('${WORKSPACE_DIR}'); air_spring_script\""
             }
         }
 
